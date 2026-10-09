@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Create fun, cinematic AI video prompts for Google Flow.">
+<title>Mahir Flow Prompt AI</title>
+<style>
+:root{--bg:#0b1020;--panel:#131b31;--line:#263451;--text:#f4f7ff;--muted:#aebbd5;--accent:#79f2c0;--accent2:#8ba7ff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at top right,#1b2c52 0,transparent 38%),var(--bg);color:var(--text);line-height:1.5}
+.wrap{max-width:900px;margin:auto;padding:24px 16px 48px}.top{display:flex;align-items:center;gap:12px;margin:10px 0 28px}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#08111d;font-weight:900;font-size:20px}.brand{font-weight:800;font-size:19px}.sub{color:var(--muted);font-size:13px}
+.hero h1{font-size:clamp(30px,6vw,48px);line-height:1.08;margin:0 0 12px}.hero p{color:var(--muted);max-width:650px;margin:0 0 24px}.pill{display:inline-block;color:var(--accent);border:1px solid #35695b;border-radius:999px;padding:4px 10px;font-size:12px;margin-bottom:12px}
+.panel{background:rgba(19,27,49,.94);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}label{display:block;font-size:14px;font-weight:650;margin-bottom:6px}input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #354564;background:#0c1427;color:var(--text);font:inherit}textarea{min-height:115px;resize:vertical}.full{grid-column:1/-1}.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}button{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#08111d}.secondary{background:#24314e;color:var(--text);border:1px solid #3a4a6a}.output{min-height:180px;white-space:pre-wrap;overflow-wrap:anywhere}.note{color:var(--muted);font-size:13px}.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.panel{padding:15px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="logo">MF</div><div><div class="brand">Mahir Flow Prompt AI</div><div class="sub">Your idea → a ready-to-use video prompt</div></div></header>
+<section class="hero"><span class="pill">CREATOR TOOLKIT</span><h1>Make your next AI video idea come alive.</h1><p>Build detailed, consistent prompts for funny cartoons, cinematic stories, and short-form videos. Copy your prompt and use it in your preferred video-generation tool.</p></section>
+<section class="panel"><h2>Prompt Builder</h2><div class="grid">
+<div><label for="kind">Video style</label><select id="kind"><option>Funny 3D cartoon</option><option>Cinematic action drama</option><option>Emotional family story</option><option>Realistic food vlog</option><option>Fantasy adventure</option></select></div>
+<div><label for="duration">Clip length</label><select id="duration"><option>10 seconds</option><option>20 seconds</option><option>30 seconds</option><option>60 seconds</option></select></div>
+<div><label for="platform">Target platform</label><select id="platform"><option>YouTube Shorts</option><option>TikTok</option><option>Facebook Reels</option><option>Landscape YouTube</option></select></div>
+<div><label for="language">Dialogue language</label><select id="language"><option>English</option><option>Bangla</option><option>No dialogue, sound effects only</option></select></div>
+<div class="full"><label for="idea">Your story idea</label><textarea id="idea" placeholder="Example: A clever duck catches a cat stealing pizza, but the cat slips on a tomato..."></textarea></div>
+<div class="full"><label for="characters">Characters and continuity (optional)</label><input id="characters" placeholder="Example: same yellow duck, orange cat, village kitchen"></div>
+<div class="full"><label for="ending">Ending or hook (optional)</label><input id="ending" placeholder="Example: funny surprise in the final second"></div>
+</div><div class="btns"><button class="primary" id="generate">Generate Prompt</button><button class="secondary" id="clear">Clear</button></div></section>
+<section class="panel"><h2>Your prompt</h2><div id="output" class="output" aria-live="polite">Your generated prompt will appear here.</div><div class="btns"><button class="primary" id="copy">Copy Prompt</button></div><p class="note">This free starter builds prompts in your browser. It does not call an AI service or include payments/ads yet.</p></section>
+<footer class="foot">© <span id="year"></span> Mahir Flow Prompt AI · Made for creators</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+$("year").textContent=new Date().getFullYear();
+$("generate").addEventListener("click",()=>{
+ const idea=$("idea").value.trim(); if(!idea){$("idea").focus();$("output").textContent="Please enter your story idea first.";return;}
+ const style=$("kind").value,duration=$("duration").value,platform=$("platform").value,language=$("language").value,chars=$("characters").value.trim(),ending=$("ending").value.trim();
+ $("output").textContent=`Create a ${duration} ${style.toLowerCase()} video for ${platform}.\n\nSTORY: ${idea}\n\nCHARACTERS AND CONTINUITY: ${chars||"Keep character design, faces, clothing, scale, lighting, and setting consistent throughout the clip."}\n\nDIALOGUE: ${language==="No dialogue, sound effects only"?"No spoken dialogue; use expressive sound effects and clear visual storytelling.":`Use natural, easy-to-understand ${language} dialogue, timed to the character actions.`}\n\nDIRECTION: Start with a funny or surprising hook in the first 1–2 seconds. Use clear staging, expressive faces, smooth motion, readable action, and well-timed comedy. Keep the story easy to follow. Use polished lighting, clean composition, and high-quality animation. Avoid unwanted text, logos, flicker, extra limbs, changing faces, and sudden scene changes.\n\nENDING: ${ending||"Finish with a memorable visual gag or satisfying surprise."}\n\nFORMAT: ${platform==="Landscape YouTube"?"16:9 landscape":"9:16 vertical"} framing, subject clearly visible, strong opening, and a clean final beat.`;
+});
+$("clear").addEventListener("click",()=>{["idea","characters","ending"].forEach(id=>$(id).value="");$("output").textContent="Your generated prompt will appear here.";});
+$("copy").addEventListener("click",async()=>{const t=$("output").textContent;if(!t||t==="Your generated prompt will appear here.")return;try{await navigator.clipboard.writeText(t);$("copy").textContent="Copied!";setTimeout(()=>$("copy").textContent="Copy Prompt",1500);}catch(e){const r=document.createRange();r.selectNodeContents($("output"));const s=window.getSelection();s.removeAllRanges();s.addRange(r);$("copy").textContent="Select and copy";}});
+</script></body></html>
